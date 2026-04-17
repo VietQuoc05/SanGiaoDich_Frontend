@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getRedirectPathForRole, resolveAuthData } from "../utils/auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -46,13 +47,27 @@ function Login() {
         throw new Error("Login failed");
       }
 
-      const data = await res.json();
+      const contentType = res.headers.get("content-type") || "";
+      const data = contentType.includes("application/json")
+        ? await res.json()
+        : await res.text();
 
-      // ✅ lưu token
-      localStorage.setItem("token", data.token);
+      const { token, role } = resolveAuthData(data);
 
-      // 👉 redirect sau login
-      navigate("/home");
+      if (!token) {
+        throw new Error("Missing token in login response");
+      }
+
+      localStorage.setItem("token", token);
+      if (role) {
+        localStorage.setItem("role", role);
+      } else {
+        localStorage.removeItem("role");
+      }
+
+      const redirectPath = getRedirectPathForRole(role) || "/home";
+
+      navigate(redirectPath, { replace: true });
 
     } catch (err) {
       setError("Sai tài khoản hoặc mật khẩu");
@@ -120,6 +135,22 @@ function Login() {
           }}
         >
           {loading ? "Loading..." : "Login"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate("/signup")}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginTop: "10px",
+            background: "transparent",
+            color: "#007bff",
+            border: "1px solid #007bff",
+            cursor: "pointer"
+          }}
+        >
+          Create account
         </button>
       </form>
     </div>
