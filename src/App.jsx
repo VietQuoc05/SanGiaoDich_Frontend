@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import SupplierDashboard from "./pages/SupplierDashboard";
+import SupplierProducts from "./pages/SupplierProducts";
 import SupplierRequests from "./pages/SupplierRequests";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -37,6 +38,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["ROLE_SUPPLIER"]}>
               <SupplierDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/supplier/products"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_SUPPLIER"]}>
+              <SupplierProducts />
             </ProtectedRoute>
           }
         />

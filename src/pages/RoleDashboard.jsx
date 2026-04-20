@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStoredRole } from "../utils/auth";
 
-function RoleDashboard({ title, themeColor, description }) {
+function RoleDashboard({ title, themeColor, description, actions = null }) {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -90,6 +90,12 @@ function RoleDashboard({ title, themeColor, description }) {
         <p style={{ fontSize: "16px", color: "#475569", maxWidth: "560px" }}>
           {description}
         </p>
+
+        {actions && (
+          <div style={{ marginTop: "20px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            {actions}
+          </div>
+        )}
 
         <button
           onClick={handleLogout}
