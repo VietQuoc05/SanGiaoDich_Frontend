@@ -7,6 +7,7 @@ import SupplierDashboard from "./pages/SupplierDashboard";
 import SupplierProducts from "./pages/SupplierProducts";
 import SupplierRequests from "./pages/SupplierRequests";
 import Cart from "./pages/Cart";
+import MyOrders from "./pages/MyOrders";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
@@ -30,6 +31,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["ROLE_USER"]}>
               <Cart />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_USER"]}>
+              <MyOrders />
             </ProtectedRoute>
           }
         />

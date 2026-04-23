@@ -499,6 +499,20 @@ function Home() {
           </button>
 
           <button
+            onClick={() => navigate("/orders")}
+            style={{
+              padding: "12px 18px",
+              background: "#0ea5e9",
+              color: "#fff",
+              border: "none",
+              borderRadius: "10px",
+              cursor: "pointer"
+            }}
+          >
+            My Orders
+          </button>
+
+          <button
             onClick={handleRequestSupplier}
             disabled={requestLoading}
             style={{
